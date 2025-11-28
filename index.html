@@ -1,377 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>90-Day English Fluency Tracker</title>
-  <style>
-    :root{--bg:#f7f8fb;--card:#fff;--accent:#2563eb;--muted:#6b7280}
-    body{font-family:Inter,system-ui,Arial,Helvetica,sans-serif;background:var(--bg);margin:0;color:#0f172a}
-    .container{max-width:900px;margin:28px auto;padding:20px}
-    header{display:flex;gap:12px;align-items:center}
-    h1{font-size:20px;margin:0}
-    p.lead{margin:6px 0 18px;color:var(--muted)}
-    .card{background:var(--card);padding:16px;border-radius:10px;box-shadow:0 4px 14px rgba(15,23,42,0.06);margin-bottom:14px}
-    label{font-weight:600;font-size:13px}
-
-    textarea,input,select{width:100%;padding:10px;margin-top:8px;border:1px solid #e6eef8;border-radius:8px;font-size:14px}
-    button{background:var(--accent);color:#fff;border:none;padding:10px 12px;border-radius:8px;cursor:pointer}
-    .row{display:flex;gap:12px}
-    .col{flex:1}
-    .small{font-size:13px;color:var(--muted)}
-    .entries .entry{border-left:4px solid var(--accent);padding:10px;margin-bottom:8px;background:#fbfdff}
-    .progress{height:12px;background:#e6eef8;border-radius:999px;overflow:hidden}
-    .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),#7c3aed);width:0%}
-    .plan{white-space:pre-wrap;font-family:monospace;max-height:360px;overflow:auto;padding:10px;background:#fcfeff;border-radius:8px;border:1px solid #eef5ff}
-    details summary{cursor:pointer;padding:8px 10px;border-radius:8px}
-    .tips{font-size:14px}
-    @media (max-width:640px){header{flex-direction:column;align-items:flex-start}}
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>90-Day English Fluency</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="container">
-    <header>
-      <div>
-        <h1>📘 90-Day English Fluency — Indian DevOps Edition</h1>
-        <p class="lead">Daily plan, reminders, progress, streaks — single file for GitHub Pages. Edit start date and paste to <code>index.html</code>.</p>
-      </div>
-      <div style="margin-left:auto;text-align:right">
-        <div class="small">Local data stored in browser</div>
-        <div class="small">Works offline once loaded</div>
-      </div>
+  <div class="wrap">
+    <header class="top">
+      <h1>📘 90-Day English Fluency — Indian DevOps</h1>
+      <nav>
+        <button onclick="showSection('planner')" class="navbtn">Daily Planner</button>
+        <button onclick="showSection('fullplan')" class="navbtn">Full Plan</button>
+      </nav>
     </header>
 
-    <section class="card">
-      <label>Program start date</label>
-      <input id="startDate" type="date" />
-      <div class="small">Set the day you want Day 1 to start. Default: today.</div>
-    </section>
-
-    <section class="card row">
-      <div class="col">
-        <label>Today's auto task</label>
-        <div id="todayTask" class="card small"></div>
-        <div style="margin-top:10px" class="row">
-          <button id="markDone">Mark Day Completed</button>
-          <button id="addNote" style="background:#10b981">Add Quick Note</button>
-        </div>
-        <div style="margin-top:10px" class="small">Streak: <strong id="streak">0</strong> days · Completed days: <strong id="doneCount">0</strong></div>
-
-        <div style="margin-top:12px">
-          <label>Daily entry / journal</label>
-          <textarea id="dailyText" placeholder="Write short summary of today's practice..."></textarea>
-          <div style="display:flex;gap:8px;margin-top:8px">
-            <button id="saveEntry">Save Entry</button>
-            <button id="clearEntries" style="background:#ef4444">Clear All</button>
+    <main>
+      <section id="planner" class="panel visible">
+        <div class="card">
+          <label>Start date</label>
+          <input id="startDate" type="date">
+          <div class="row">
+            <button id="saveStart" class="btn">Save</button>
+            <button id="resetStart" class="btn secondary">Reset</button>
           </div>
         </div>
-      </div>
 
-      <div class="col">
-        <label>Progress (0–90)</label>
-        <div class="progress"><i id="progressBar"></i></div>
-        <div style="display:flex;justify-content:space-between;margin-top:8px"><span class="small">Day <strong id="dayNumber">0</strong></span><span class="small">90 days total</span></div>
+        <div class="card">
+          <h2>Today's Task</h2>
+          <div id="todayTask" class="task">Pick a start date to begin.</div>
 
-        <div style="margin-top:14px">
-          <label>Reminder time (browser)</label>
-          <input id="remTime" type="time" />
-          <div style="display:flex;gap:8px;margin-top:8px">
-            <button id="enableNotif">Enable Notifications</button>
-            <button id="testNotif" style="background:#6b7280">Test</button>
+          <div class="meta">
+            <div>Day <span id="dayNum">0</span> of 90</div>
+            <div>Streak: <span id="streak">0</span></div>
           </div>
-          <div class="small" style="margin-top:8px" id="notifStatus"></div>
+
+          <div class="progress"><div id="bar"></div></div>
+
+          <div class="card small">
+            <label>Daily entry / journal</label>
+            <textarea id="entry" placeholder="Write your practice notes..."></textarea>
+            <div class="row">
+              <button id="saveEntry" class="btn">Save Entry</button>
+              <button id="markDone" class="btn secondary">Mark Day Done</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Saved Entries</h3>
+            <div id="entries"></div>
+            <div class="row">
+              <button id="export" class="btn">Export JSON</button>
+              <button id="importBtn" class="btn secondary">Import JSON</button>
+              <input id="importFile" type="file" accept="application/json" style="display:none">
+            </div>
+          </div>
+
         </div>
+      </section>
 
-        <div style="margin-top:12px">
-          <label>Today's Tip</label>
-          <div id="todayTip" class="card tips small"></div>
+      <section id="fullplan" class="panel hidden">
+        <div class="card">
+          <h2>Full 90-Day Plan</h2>
+          <div id="planContainer" class="plan"></div>
+          <div class="small">Tip: Use this section for reading and copying daily tasks into the planner.</div>
         </div>
-      </div>
-    </section>
+      </section>
+    </main>
 
-    <section class="card">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <label>Saved entries</label>
-        <div class="small">Local only — can download/export below</div>
-      </div>
-      <div id="entries" class="entries" style="margin-top:10px"></div>
-      <div style="margin-top:10px;display:flex;gap:8px">
-        <button id="exportJSON" style="background:#7c3aed">Export JSON</button>
-        <button id="importJSON" style="background:#0ea5e9">Import JSON</button>
-        <input id="importFile" type="file" accept="application/json" style="display:none" />
-      </div>
-    </section>
-
-    <section class="card">
-      <details open>
-        <summary>Full 90-Day Plan (click to collapse)</summary>
-        <div class="plan" id="fullPlan"></div>
-      </details>
-    </section>
-
-    <footer style="text-align:center;color:var(--muted);font-size:13px;margin-top:18px">Made for Indian DevOps engineers • Paste this file as <code>index.html</code> in your GitHub Pages repo</footer>
+    <footer class="foot">Made for Indian DevOps engineers • Copy these files into a repo and enable GitHub Pages</footer>
   </div>
 
-  <script>
-    // full plan text (keeps code tidy)
-    const fullPlanText = `# 90-Day English Fluency for Indian DevOps Engineers
-
-🇮🇳 Special Tips for Indian Learners
-
-Common Challenges Indians Face:
-- Articles (a, an, the) - Hindi doesn't have these
-- Prepositions (in, on, at) - different usage than Hindi
-- Tenses - especially present perfect vs simple past
-- Pronunciation - v/w, th sounds
-- Direct translation from Hindi/regional language
-
-Your Advantages:
-- You already know technical concepts in Hindi
-- You understand grammar structure
-- You're comfortable with formal communication
-- You have determination and hard work ethic! 💪
-
----
-
-## WEEK 1: Setup & Foundation
-Day 1 - Your First Day (30 min)
-Morning (10 min): Change computer/phone/IDE to English
-Evening (20 min): Create vocab notebook, read AWS 'What is DevOps?', write 3 sentences, note 5 new words.
-
-Day 2 - Docker Day (35 min)
-Morning: Read Docker 'Get Started', practice pronouncing 'th','v','w'
-Evening: Write 'What is Docker?' 5 sentences, watch video, add 5 technical words.
-
-Day 3 - Kubernetes + Listening (40 min)
-Morning: Read 'What is Kubernetes?', practice articles: 'THE cluster', 'A pod', 'AN instance'
-Evening: Journal, listen to DevOps podcast, note 3 phrases.
-
-Day 4 - Active Writing (40 min)
-Morning: Read dev.to article, circle unknown words
-Evening: Comment code in English, write problem solved (7 sentences).
-
-Day 5 - Weekly Review (40 min)
-Morning: Read AWS blog, practice explaining aloud
-Evening: Write weekly summary (10 sentences), check articles.
-
-Day 6 - Weekend Light Practice (45 min)
-Watch a DevOps talk, write 5 key points, read tech memes.
-
-Day 7 - Reflection Sunday (30 min)
-Read week writing, notice mistakes, rewrite 2-3 sentences.
-
----
-
-## WEEK 2: Building Confidence
-Day 8 - Community Participation
-Read Terraform docs, join Reddit r/devops, reply to one post.
-Day 9 - CI/CD Focus
-Read Medium CI/CD article, record yourself reading aloud.
-Day 10 - Mid-week Practice
-Read Kubernetes networking basics, journal.
-Day 11 - Documentation Day
-Write README.md for your project using imperative mood.
-Day 12 - Friday Wrap-up
-Write about monitoring systems (2 paragraphs), review vocab.
-Day 13 - Saturday Practice
-Watch tech conference talk, take notes, explain to yourself.
-Day 14 - Week 2 Review
-Compare Week1 vs Week2, list improvements.
-
----
-
-## WEEK 3-4: Consistent Practice (Same Pattern Daily)
-Morning: Read technical docs, practice pronunciation, write one-sentence summary.
-Evening: Write daily work journal.
-Specials: Mondays - technical explanation; Tuesdays - tutorial notes; Wednesdays - podcast summary; Thursdays - StackOverflow participation; Fridays - weekly summary.
-Weekend: Saturday - blog draft (400-600 words); Sunday - edit blog and read 2-3 long articles.
-
----
-
-## SPECIFIC TIPS FOR INDIANS
-Articles: Use a/an for first mention, the for specific, no article for general things.
-Prepositions: Work ON a project, Work AT a company, Deploy TO production, Experience WITH technology.
-Present perfect vs Simple past: Simple past for specific time, present perfect for experience.
-Avoid Hinglish in professional writing.
-
-Pronunciation practice: v vs w, th, syllable stress. Practice words: Kubernetes (koo-ber-NET-eez), AWS (A-W-S), Cache (cash), SQL (S-Q-L or sequel).
-
-Daily reminder setup options: Phone alarm 8:00 PM, Google Calendar event, sticky note, or habit app.
-
-Resources: FreeCodeCamp, DigitalOcean, Dev.to, TechWorld with Nana, Simplilearn, KodeKloud, Reddit r/devops.
-
-Motivation: Focus on clarity not accent. Celebrate milestones: call friend about Docker (Week1), order food in English (Week4), attend meetup (Week8), publish blog (Week12).`;
-
-    // tips array rotates daily
-    const tips = [
-      'Think in English while coding — label variables/commits in English.',
-      'Practice articles: a/an for first mention, the for specific.',
-      "Say 'I have a question' instead of 'I am having one doubt'.",
-      'Pronounce th: place tongue between teeth and blow air — try "think".',
-      'Use present perfect for experience: "I have deployed to prod".'
-    ];
-
-    // init DOM
-    const fullPlanEl = document.getElementById('fullPlan');
-    const startDateEl = document.getElementById('startDate');
-    const todayTaskEl = document.getElementById('todayTask');
-    const dayNumberEl = document.getElementById('dayNumber');
-    const progressBar = document.getElementById('progressBar');
-    const dailyText = document.getElementById('dailyText');
-    const entriesEl = document.getElementById('entries');
-    const saveEntryBtn = document.getElementById('saveEntry');
-    const exportJSON = document.getElementById('exportJSON');
-    const importJSON = document.getElementById('importJSON');
-    const importFile = document.getElementById('importFile');
-    const remTime = document.getElementById('remTime');
-    const enableNotif = document.getElementById('enableNotif');
-    const testNotif = document.getElementById('testNotif');
-    const notifStatus = document.getElementById('notifStatus');
-    const todayTip = document.getElementById('todayTip');
-    const markDone = document.getElementById('markDone');
-    const addNote = document.getElementById('addNote');
-    const streakEl = document.getElementById('streak');
-    const doneCountEl = document.getElementById('doneCount');
-
-    fullPlanEl.textContent = fullPlanText;
-
-    // storage keys
-    const KEY = 'ef_trk_v1';
-
-    function loadState(){
-      const raw = localStorage.getItem(KEY);
-      return raw ? JSON.parse(raw) : {start: null, entries:[], doneDays: [], reminder:null, streak:0};
-    }
-    function saveState(s){ localStorage.setItem(KEY, JSON.stringify(s)); }
-
-    let state = loadState();
-
-    // set default start date to today if not set
-    function setDefaultStart(){
-      if(!state.start){
-        const d = new Date();
-        state.start = d.toISOString().slice(0,10);
-        saveState(state);
-      }
-      startDateEl.value = state.start;
-    }
-
-    function computeDayNumber(){
-      const start = new Date(state.start + 'T00:00:00');
-      const now = new Date();
-      const diff = Math.floor((now - start)/(24*3600*1000));
-      return diff + 1; // day 1 is start day
-    }
-
-    function renderToday(){
-      const day = computeDayNumber();
-      const capped = Math.max(1, Math.min(90, day));
-      dayNumberEl.textContent = capped;
-      const pct = Math.round((capped/90)*100);
-      progressBar.style.width = pct + '%';
-      // set today's task (simple — fetch from plan by pattern)
-      todayTaskEl.textContent = `Day ${capped}: Open the full plan below and follow the Day ${capped <= 14 ? capped : ((capped<=28)?'Week3-4 routine':'Continue practice')} steps.`;
-      todayTip.textContent = tips[(new Date()).getDate() % tips.length];
-
-      // streak calculation: consecutive days marked in doneDays
-      const done = state.doneDays || [];
-      doneCountEl.textContent = done.length;
-      // compute streak ending today
-      let streak = 0; let cur = new Date();
-      for(let i=0;i<1000;i++){
-        const d = new Date(); d.setDate(cur.getDate()-i);
-        const key = d.toISOString().slice(0,10);
-        if(done.includes(key)) streak++; else break;
-      }
-      streakEl.textContent = streak;
-    }
-
-    function renderEntries(){
-      entriesEl.innerHTML = '';
-      const list = state.entries.slice().reverse();
-      list.forEach((e,i)=>{
-        const div = document.createElement('div'); div.className='entry';
-        div.innerHTML = `<div style="display:flex;justify-content:space-between"><div><strong>${e.date}</strong></div><div><button data-idx="${state.entries.length-1-i}" style="background:#ef4444;border:none;color:#fff;padding:6px;border-radius:6px;cursor:pointer">Delete</button></div></div><div style="margin-top:6px">${escapeHtml(e.text)}</div>`;
-        entriesEl.appendChild(div);
-      });
-      // attach delete handlers
-      entriesEl.querySelectorAll('button[data-idx]').forEach(b=>b.addEventListener('click',ev=>{
-        const idx = Number(ev.currentTarget.dataset.idx); state.entries.splice(idx,1); saveState(state); renderEntries(); renderToday();
-      }));
-    }
-
-    function escapeHtml(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/
-/g,'<br>'); }
-
-    // save entry
-    saveEntryBtn.addEventListener('click',()=>{
-      const t = dailyText.value.trim(); if(!t) return alert('Write something first');
-      state.entries.push({date:new Date().toLocaleString(), text:t}); saveState(state); dailyText.value=''; renderEntries();
-    });
-
-    // clear all
-    document.getElementById('clearEntries').addEventListener('click',()=>{
-      if(!confirm('Clear all saved entries?')) return; state.entries=[]; state.doneDays=[]; state.streak=0; saveState(state); renderEntries(); renderToday();
-    });
-
-    // export/import
-    exportJSON.addEventListener('click',()=>{
-      const blob = new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a'); a.href=url; a.download='english-tracker.json'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
-    });
-    importJSON.addEventListener('click',()=>importFile.click());
-    importFile.addEventListener('change',ev=>{
-      const f = ev.target.files[0]; if(!f) return; const reader = new FileReader(); reader.onload = ()=>{ try{ state = JSON.parse(reader.result); saveState(state); renderEntries(); renderToday(); alert('Imported'); }catch(e){alert('Invalid file')} }; reader.readAsText(f);
-    });
-
-    // start date change
-    startDateEl.addEventListener('change',()=>{ state.start = startDateEl.value; saveState(state); renderToday(); });
-
-    // notifications
-    enableNotif.addEventListener('click',async ()=>{
-      if(!('Notification' in window)) return notifStatus.textContent='Notifications not supported in this browser';
-      const p = await Notification.requestPermission(); notifStatus.textContent='Permission: '+p; if(p==='granted') notifStatus.style.color='green';
-    });
-    testNotif.addEventListener('click',()=>sendNotif('Test reminder','This is a test reminder for English practice'));
-
-    function sendNotif(title,body){
-      if(Notification.permission==='granted'){
-        const n = new Notification(title,{body,tag:'english-tracker'});
-        n.onclick = ()=>window.focus();
-      } else alert('Enable notifications first');
-    }
-
-    // check reminder every minute
-    setInterval(()=>{
-      const t = remTime.value || state.reminder;
-      if(!t) return;
-      const now = new Date(); const hh = String(now.getHours()).padStart(2,'0'); const mm = String(now.getMinutes()).padStart(2,'0'); if(hh+':'+mm === t){ sendNotif('English Practice','Time for your daily English practice!'); }
-    },60000);
-
-    remTime.addEventListener('change',()=>{ state.reminder = remTime.value; saveState(state); notifStatus.textContent = 'Reminder set at ' + remTime.value; });
-
-    // mark day completed
-    markDone.addEventListener('click',()=>{
-      const todayKey = new Date().toISOString().slice(0,10);
-      if(!state.doneDays) state.doneDays = [];
-      if(!state.doneDays.includes(todayKey)) state.doneDays.push(todayKey);
-      saveState(state); renderToday(); alert('Marked done for ' + todayKey);
-    });
-
-    addNote.addEventListener('click',()=>{
-      const now = new Date(); const txt = prompt('Quick note for today (short):'); if(!txt) return; state.entries.push({date:now.toLocaleString(), text:txt}); saveState(state); renderEntries(); renderToday();
-    });
-
-    // initial load
-    if(!state.start) setDefaultStart(); else startDateEl.value = state.start;
-    renderEntries(); renderToday();
-
-    // show saved reminder / notif status
-    if(state.reminder) remTime.value = state.reminder, notifStatus.textContent = 'Reminder set at ' + state.reminder;
-
-    // helper: set start date to today if empty on first load
-    if(!state.start){ const d = new Date(); state.start = d.toISOString().slice(0,10); saveState(state); startDateEl.value = state.start; }
-  </script>
+  <script src="plan.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
