@@ -1,25 +1,107 @@
-:root{--bg:#f8fafc;--card:#ffffff;--accent:#2563eb;--muted:#6b7280}
-*{box-sizing:border-box}
-body{font-family:Inter, system-ui, Arial, sans-serif;background:var(--bg);margin:0;color:#0f172a}
-.wrap{max-width:980px;margin:20px auto;padding:16px}
-.top{display:flex;align-items:center;gap:16px}
-.top h1{font-size:20px;margin:0}
-nav{margin-left:auto}
-.navbtn{background:transparent;border:1px solid #e6eef8;padding:8px 10px;border-radius:8px;margin-left:8px;cursor:pointer}
-.panel{margin-top:16px}
-.card{background:var(--card);padding:14px;border-radius:12px;box-shadow:0 6px 20px rgba(2,6,23,0.06);margin-bottom:12px}
-.row{display:flex;gap:8px;margin-top:8px}
-.btn{background:var(--accent);color:#fff;border:none;padding:8px 12px;border-radius:8px;cursor:pointer}
-.secondary{background:#6b7280}
-.small{font-size:13px;color:var(--muted)}
-.task{padding:12px;background:#f1f5ff;border-radius:8px}
-.meta{display:flex;justify-content:space-between;margin-top:8px;color:var(--muted)}
-.progress{height:12px;background:#e6eef8;border-radius:999px;overflow:hidden;margin-top:10px}
-#bar{height:100%;width:0;background:linear-gradient(90deg,var(--accent),#7c3aed)}
-textarea{width:100%;min-height:120px;padding:8px;margin-top:8px;border-radius:8px;border:1px solid #e6eef8}
-.plan{white-space:pre-wrap;font-family:monospace;max-height:640px;overflow:auto;padding:10px;background:#fcfeff;border-radius:8px;border:1px solid #eef5ff}
-.visually-hidden{position:absolute;left:-9999px}
-.hidden{display:none}
-.visible{display:block}
-.foot{margin-top:18px;text-align:center;color:var(--muted);font-size:13px}
-#entries .entry{padding:8px;border-radius:8px;border:1px solid #eef5ff;margin-bottom:8px;background:#fff}
+:root {
+    --bg-color: #0d1117; /* GitHub Dark Dimmed */
+    --card-bg: #161b22;
+    --text-main: #c9d1d9;
+    --primary: #238636; /* GitHub Green */
+    --primary-hover: #2ea043;
+    --accent: #58a6ff;
+    --border: #30363d;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    margin: 0;
+    padding: 20px;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 20px;
+}
+
+/* Progress Bar */
+.progress-container {
+    background-color: var(--border);
+    border-radius: 10px;
+    height: 10px;
+    width: 100%;
+    margin-top: 15px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    background-color: var(--primary);
+    height: 100%;
+    width: 0%; /* JS will change this */
+    transition: width 0.3s ease;
+}
+
+/* Cards */
+.card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+.tips-card {
+    border-left: 4px solid var(--accent);
+}
+
+/* Typography */
+h1, h2, h3 { color: #ffffff; }
+ul { padding-left: 20px; }
+li { margin-bottom: 10px; }
+
+/* Buttons */
+.btn-primary, .btn-secondary, .nav-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    color: white;
+    transition: 0.2s;
+}
+
+.btn-primary { background-color: var(--primary); width: 100%; font-size: 1.1em; }
+.btn-primary:hover { background-color: var(--primary-hover); }
+.btn-secondary { background-color: #1f6feb; margin-top: 10px; }
+.nav-btn { background-color: var(--border); }
+.nav-btn:hover { background-color: #8b949e; }
+
+/* Navigation */
+.navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* Journal Input */
+textarea {
+    width: 100%;
+    height: 150px;
+    background-color: #0d1117;
+    border: 1px solid var(--border);
+    color: white;
+    padding: 10px;
+    border-radius: 6px;
+    resize: vertical;
+    font-family: monospace;
+}
+
+/* Utilities */
+.highlight { color: var(--accent); font-weight: bold; }
