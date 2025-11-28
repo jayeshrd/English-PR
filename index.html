@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>90-Day English Fluency Tracker</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; padding-bottom: 50px; }
+    h1 { font-size: 24px; }
+    .section { margin-bottom: 25px; }
+    textarea { width: 100%; height: 120px; padding: 8px; }
+    input, button { padding: 8px; margin-top: 8px; }
+    #entries { margin-top: 20px; }
+    .entry { padding: 10px; border: 1px solid #ccc; border-radius: 6px; margin-bottom: 10px; }
+  </style>
+</head>
+<body>
+  <h1>📘 90-Day English Fluency Tracker</h1>
+
+  <div class="section">
+    <h3>📅 Daily Practice Entry</h3>
+    <textarea id="dailyText" placeholder="Write your Day's practice summary here..."></textarea>
+    <button onclick="saveEntry()">Save Entry</button>
+  </div>
+
+  <div class="section">
+    <h3>⏰ Daily Reminder</h3>
+    <label>Set reminder time:</label><br>
+    <input type="time" id="reminderTime" />
+    <button onclick="setReminder()">Enable Reminder</button>
+    <p id="reminderStatus"></p>
+  </div>
+
+  <div class="section">
+    <h3>📖 Your Saved Entries</h3>
+    <div id="entries"></div>
+  </div>
+
+  <script>
+    function saveEntry() {
+      const text = document.getElementById('dailyText').value;
+      if (!text.trim()) return alert('Please write something!');
+      const date = new Date().toLocaleString();
+      const entry = { date, text };
+
+      let list = JSON.parse(localStorage.getItem('entries') || '[]');
+      list.unshift(entry);
+      localStorage.setItem('entries', JSON.stringify(list));
+
+      document.getElementById('dailyText').value = '';
+      loadEntries();
+    }
+
+    function loadEntries() {
+      const container = document.getElementById('entries');
+      container.innerHTML = '';
+      const list = JSON.parse(localStorage.getItem('entries') || '[]');
+
+      list.forEach(e => {
+        const div = document.createElement('div');
+        div.className = 'entry';
+        div.innerHTML = `<strong>${e.date}</strong><br>${e.text}`;
+        container.appendChild(div);
+      });
+    }
+
+    function setReminder() {
+      const time = document.getElementById('reminderTime').value;
+      if (!time) return alert('Select a time');
+      localStorage.setItem('reminderTime', time);
+      document.getElementById('reminderStatus').innerText = 'Reminder set for ' + time;
+    }
+
+    function checkReminder() {
+      const time = localStorage.getItem('reminderTime');
+      if (!time) return;
+
+      const now = new Date();
+      const current = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+
+      if (current === time) {
+        alert('⏰ English Practice Reminder!');
+      }
+    }
+
+    loadEntries();
+    setInterval(checkReminder, 60000); // check every minute
+  </script>
+</body>
+</html>
