@@ -1,78 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>90-Day English Fluency</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevOps English Tracker 🇮🇳</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-  <div class="wrap">
-    <header class="top">
-      <h1>📘 90-Day English Fluency — Indian DevOps</h1>
-      <nav>
-        <button onclick="showSection('planner')" class="navbtn">Daily Planner</button>
-        <button onclick="showSection('fullplan')" class="navbtn">Full Plan</button>
-      </nav>
-    </header>
 
-    <main>
-      <section id="planner" class="panel visible">
-        <div class="card">
-          <label>Start date</label>
-          <input id="startDate" type="date">
-          <div class="row">
-            <button id="saveStart" class="btn">Save</button>
-            <button id="resetStart" class="btn secondary">Reset</button>
-          </div>
-        </div>
-
-        <div class="card">
-          <h2>Today's Task</h2>
-          <div id="todayTask" class="task">Pick a start date to begin.</div>
-
-          <div class="meta">
-            <div>Day <span id="dayNum">0</span> of 90</div>
-            <div>Streak: <span id="streak">0</span></div>
-          </div>
-
-          <div class="progress"><div id="bar"></div></div>
-
-          <div class="card small">
-            <label>Daily entry / journal</label>
-            <textarea id="entry" placeholder="Write your practice notes..."></textarea>
-            <div class="row">
-              <button id="saveEntry" class="btn">Save Entry</button>
-              <button id="markDone" class="btn secondary">Mark Day Done</button>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-code-branch"></i> DevOps English Fluency 🇮🇳</h1>
+            <p>90-Day Challenge for Indian Engineers</p>
+            
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
             </div>
-          </div>
+            <p id="progressText">0% Completed</p>
+            <button id="notifyBtn" class="btn-secondary"><i class="fas fa-bell"></i> Enable Reminders</button>
+        </header>
 
-          <div class="card">
-            <h3>Saved Entries</h3>
-            <div id="entries"></div>
-            <div class="row">
-              <button id="export" class="btn">Export JSON</button>
-              <button id="importBtn" class="btn secondary">Import JSON</button>
-              <input id="importFile" type="file" accept="application/json" style="display:none">
+        <main id="app">
+            <div class="navigation">
+                <button id="prevBtn" class="nav-btn"><i class="fas fa-chevron-left"></i> Prev</button>
+                <h2 id="dayTitle">Day 1: Setup</h2>
+                <button id="nextBtn" class="nav-btn">Next <i class="fas fa-chevron-right"></i></button>
             </div>
-          </div>
 
-        </div>
-      </section>
+            <div class="card">
+                <h3><i class="fas fa-clock"></i> Today's Schedule</h3>
+                <div id="scheduleContent"></div>
+            </div>
 
-      <section id="fullplan" class="panel hidden">
-        <div class="card">
-          <h2>Full 90-Day Plan</h2>
-          <div id="planContainer" class="plan"></div>
-          <div class="small">Tip: Use this section for reading and copying daily tasks into the planner.</div>
-        </div>
-      </section>
-    </main>
+            <div class="card tips-card">
+                <h3><i class="fas fa-lightbulb"></i> Tip of the Day</h3>
+                <p id="tipContent"></p>
+            </div>
 
-    <footer class="foot">Made for Indian DevOps engineers • Copy these files into a repo and enable GitHub Pages</footer>
-  </div>
+            <div class="card">
+                <h3><i class="fas fa-pen-fancy"></i> Daily Journal & Vocabulary</h3>
+                <p>Write your daily summary or new words here. It saves automatically!</p>
+                <textarea id="dailyJournal" placeholder="Today I learned... (Type here, it saves automatically)"></textarea>
+            </div>
 
-  <script src="plan.js"></script>
-  <script src="script.js"></script>
+            <div class="action-area">
+                <button id="completeBtn" class="btn-primary">Mark Day as Complete <i class="fas fa-check"></i></button>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
